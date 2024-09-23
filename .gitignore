@@ -1,0 +1,9 @@
+run_tests.sh
+.pytest_cache
+# /benchmarks/*
+*.pyc
+# results/*
+logs/*
+tests.py
+debug.py
+temp/*

@@ -1,0 +1,16 @@
+model_name,arch_dims,arch_interconnections,training_time
+mapzero,"(4, 4)",MESH,507.1231479644776
+yoto_mapzero,"(4, 4)",MESH,649.1795921325684
+mapzero,"(4, 4)",ONE_HOP,662.4708218574524
+yoto_mapzero,"(4, 4)",ONE_HOP,741.8162956237793
+mapzero,"(4, 4)",OH_TOR_DIAG,761.2180364131927
+yoto_mapzero,"(4, 4)",OH_TOR_DIAG,800.0465278625488
+yoto_mapzero,"(8, 8)",ONE_HOP,2842.5769453048706
+mapzero,"(8, 8)",ONE_HOP,2963.7418084144592
+mapzero,"(8, 8)",OH_TOR_DIAG,3324.6059064865112
+yoto_mapzero,"(8, 8)",OH_TOR_DIAG,3436.519111156464
+yoto_mapzero,"(8, 8)",MESH,1521.980738401413
+mapzero,"(8, 8)",MESH,2373.5583345890045
+yoto_mapzero,"(16, 16)",ONE_HOP,6919.853650569916
+mapzero,"(16, 16)",OH_TOR_DIAG,8801.044356822968
+yoto_mapzero,"(16, 16)",OH_TOR_DIAG,9033.874576807022
