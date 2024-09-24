@@ -31,6 +31,7 @@ Under review.
 The structure of this project is organized as follows:
 * **benchmarks**: This directory contains all collected benchmarks. `benchmarks/changed_MCTS_benchmark` contains the DFGs used for mapping, and `benchmarks/synthetics` contains the DFGs used for pre-training;
 * **configs**: All configurations for the experiments, including hyperparameters;
+* **legacy**: Legacy code;
 * **results**: Tracked metrics for pre-training, interpretable mappings, checkpoints, images, and CSVs with information about the mapping and pre-training results;
 * **scripts**: Shell scripts to facilitate reproducibility and the use of the code;
 * **src**: All source code;
@@ -45,7 +46,7 @@ The experiments were performed on:
     * CUDA Version: 12.4
 * 16 CPUs: 11th Gen Intel(R) Core(TM) i7-11800H @ 2.30GHz
 
-### Prerequisites (Tested on the)
+### Prerequisites
 * Python 3.12.3
 * PIP 24.0
 
@@ -88,7 +89,7 @@ The following tables present the main hyperparameters used, along with their val
 | momentum | Optimizer parameter | float | 0.9 |
 | num_max_expansion_test | Max number of children to expand during the expansion stage in SelfMapping during test mode | int | 100 |
 | num_max_expansion_train | Max number of children to expand during the expansion stage in SelfMapping during train mode | int | 200 |
-| num_simulations | Number of MCTS simulations | int | Vary according to the architecture size and interconnection style. See src/utils/util_configs_train.py |
+| num_simulations | Number of MCTS simulations | int | Vary according to the architecture size and interconnection style. See `src/utils/util_configs_train.py` |
 | num_unroll_steps | Number of placement actions to keep in a batch for each mapping sample | int | Number of PEs |
 | num_workers | Number of SelfMapping instances running in parallel in train mode | int | 10 |
 | optimizer | Optimizer for the model | String | "Adam" |
@@ -167,9 +168,7 @@ Routing:
 MCTS results: Mean visited rate: 54.993% | Mean visited nodes: 127.500 | 2xMean expanded nodes: 1.892 | Mean max tree depth 7.000 | Number of Backtrackings: 0
 
 -------------------------------------------------- End Mapping V_8_E_9.dot --------------------------------------------------
-
 ```
-
 
 ## Reproducibility
 
@@ -180,7 +179,7 @@ To simplify reproducibility, we created shell scripts, which can be found in `sc
 ### Workflow
 The workflow is simple:
 1. Pre-train a model on `synthetics` DFGs and save the checkpoint in `results/checkpoints/`.
-2. Map DFGs in `changed_MCTS_benchmark/` with zero-shot and fine-tune using the pre-trained model.
+2. Map DFGs in `changed_MCTS_benchmark/` with zero-shot and finetune using the pre-trained model.
 
 ### Scripts Information
 The scripts for pre-training and mapping follow this pattern:
@@ -188,7 +187,7 @@ The scripts for pre-training and mapping follow this pattern:
 <script> <ConfigFile> <ConfigClass> <ARCH_STYLE> <nxm>
 ```
 
-Where *n* and *m* can be any positive integer values, *ARCH_STYLE* can be OH_TOR_DIAG, MESH, or ONE_HOP. *ConfigFile* is the filename of a configuration in configs/, and *ConfigClass* is the class in the config file. The *script* refers to any script in `scripts/` that does not include the substring 'all'.
+Where *n* and *m* can be any positive integer values, *ARCH_STYLE* can be OH_TOR_DIAG, MESH, or ONE_HOP. *ConfigFile* is the filename of a configuration in `configs/` for a compiler, and *ConfigClass* is the class in this configuration file. The *script* refers to any script in `scripts/` that does not include the substring 'all'.
 
 Thus, with these scripts, you can train a MapZero or SmartMap model (or map using them) on an *n*×*m* CGRA with interconnections: mesh, one-hop, or one-hop plus diagonal. Finally, the configuration file contains all [hyperparameters](#hyperparameters), as well as the model and method. Refer to the next sections for examples.
 
@@ -206,6 +205,7 @@ Thus, with these scripts, you can train a MapZero or SmartMap model (or map usin
 
 ## Mapping and Comparing with Your Compiler Using SmartMap
 
-Although our implementation supports more operations, SmartMap uses only addition operations during training to simplify synthetic data generation. To map with SmartMap and compare with your compiler, transform the DFGs operations into addition operations, add the new DFGs to the `benchmarks/changed_MCTS_benchmark`, and refer to the [reproducibility scripts](#2-mapping) to map according to a CGRA. Moreover, refer to `change_benchmark.py` to assist in this transformation. Additionally, for faster evaluation, we recommend removing unnecessary DFGs from the directory.
+Although our implementation supports more operations, SmartMap uses only addition operations during training to simplify synthetic data generation. To map with SmartMap and compare the results with those of your compiler, first transform the DFG operations into addition operations, then add the new DFGs to the `benchmarks/changed_MCTS_benchmark`, and refer to the [reproducibility scripts](#2-mapping) to map according to a CGRA. For assistance with the DFG transformation, refer to `change_benchmark.py`. Additionally, for faster evaluation, we recommend removing unnecessary DFGs from the directory.
 
 To conclude, this is a preliminary and simplified method for performing comparisons using SmartMap. More scripts will be provided in the future to facilitate the use of all SmartMap features.
+
