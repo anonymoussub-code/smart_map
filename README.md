@@ -23,7 +23,7 @@ SmartMap is a framework that utilizes an actor-critic reinforcement learning met
 	- [Mapping](#2-mapping)
 		- [Zero-shot](#zero-shot)
 		- [Finetune](#finetune)
-- [Mapping and Comparing with Your Compiler Using SmartMap](#map-and-compare-with-your-compiler-using-smartmap)
+- [Mapping and Comparing with Your Compiler Using SmartMap](#mapping-and-comparing-with-your-compiler-using-smartmap)
 ## Paper
 Under review.
 
