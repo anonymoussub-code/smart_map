@@ -111,7 +111,7 @@ The following tables present the main hyperparameters used, along with their val
 | train_on_gpu | Whether training will be done on the GPU | bool | True |
 | use_last_model_value | Whether to use the last model's weights in Reanalyse | bool | True |
 | value_loss_weight | Weight for value loss during training | float | 1.0 |
-| visit_softmax_temperature_fn | Function to update the stochasticity during action selection in SelfMapping in train mode | function | see `utils/SoftmaxTemperature.py` |
+| visit_softmax_temperature_fn | Function to update the stochasticity during action selection in SelfMapping in train mode | function | See `utils/SoftmaxTemperature.py` |
 | weight_decay | Optimizer parameter | float | 0.0001 |
 
 ## Results
