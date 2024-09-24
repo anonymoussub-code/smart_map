@@ -6,34 +6,28 @@ def gen_graphics(df,mode,dim):
     sns.set(style="whitegrid", palette="pastel", font_scale=1.2)
     map_mode = {'ZERO_SHOT': 'Zero-Shot', 'FINETUNE':'Finetune'}
     mode = map_mode[mode]
-    model_name_mapping = {'mapzero': 'MapZero', 'yoto_mapzero': 'SmartMap'}
+    model_name_mapping = {'mapzero': 'MapZero', 'smartmap': 'SmartMap'}
     arch_mapping = {'MESH': 'Mesh', 'OH_TOR_DIAG': 'OH+Tor+Diag', 'ONE_HOP': 'One-Hop'}
 
     df['model_name'] = df['model_name'].map(model_name_mapping)
     df['arch_interconnections'] = df['arch_interconnections'].map(arch_mapping)
     print(df)
 
-    # Ordenar as arquiteturas
     arch_order = ['OH+Tor+Diag', 'One-Hop', 'Mesh']
 
     df.rename(columns={'model_name':'Method'},inplace=True)
 
-    # Criar o gráfico
     plt.figure(figsize=(7, 4))
     sns.barplot(x='arch_interconnections', y='mapping_is_valid', hue='Method', data=df, hue_order=['MapZero', 'SmartMap'], order=arch_order)
 
-    # Configurar os rótulos e título
     plt.xlabel('Architecture Interconnections')
     plt.ylabel('Valid Mapping Rate')
-    # plt.title(f'Valid Mapping Rate by {dim}x{dim} CGRAs and Methods in {mode} mode.')
-    # Mostrar o gráfico
     plt.show()
 
 def get_df_valid_mapping_rate_by_mapping_type(df:pd.DataFrame,col_type):
     df_vm = df[df['test_mode'] == col_type ][['model_name','arch_dims','arch_interconnections','mapping_is_valid']].groupby(['model_name','arch_dims','arch_interconnections']).mean()
     
     return df_vm.reset_index()
-    # df['valid mapping_rate']
 
 def get_df_used_pes_rate_by_mapping_type(df:pd.DataFrame):
     df_mt = df[df['mapping_is_valid'] == True]
@@ -52,7 +46,6 @@ def get_df_mean_time(df:pd.DataFrame):
     df_mt = df_mt[df_mt.duplicated(subset=['arch_dims','arch_interconnections','dfg_name','test_mode'], keep=False)]
     print(df_mt[['mapping_time','model_name']].groupby('model_name').mean())
   
-    #     input()
 df = pd.read_csv('results/mapping_results.csv')
 aux_df = df[df['mapping_is_valid'] == True]
 print(aux_df.groupby('model_name').count()['mapping_is_valid'])
@@ -63,8 +56,8 @@ test_modes = [
     'FINETUNE'
 ]
 
-# get_df_mean_time(df)
-# get_df_used_pes_rate_by_mapping_type(df)
+get_df_mean_time(df)
+get_df_used_pes_rate_by_mapping_type(df)
 for mode in test_modes:
     print('-'*100)
     print(mode)  

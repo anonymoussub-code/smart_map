@@ -7,3 +7,5 @@ logs/*
 tests.py
 debug.py
 temp/*
+legacy/*
+legacy

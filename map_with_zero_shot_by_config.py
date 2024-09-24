@@ -18,7 +18,7 @@ import sys
 from configs.config_mapzero import ConfigMapzero
 from src.utils.util_mapping import UtilMapping
 from src.entities.mapping_results import MappingResults
-from configs.config_yoto_mapzero import ConfigYOTOMapzero
+from configs.config_smartmap import ConfigSmartMap
 def print_placement(state):
     n_rows,n_cols = state.cgra.cgra.dim_arch
     matrix = [[-1 for j in range(n_cols)] for i in range(n_rows)]
@@ -59,34 +59,27 @@ def print_placement(state):
                 max_mid = max(max_mid, len(mid.strip()))
         return max_init, max_mid, max_final
 
-    # Calcular comprimentos máximos
     max_init, max_mid, max_final = get_max_lengths(matrix)
 
-    # Formatar a matriz
     formatted_rows = [
         [f"{item.split('|')[0].strip():<{max_init}} | {item.split('|')[1].strip():<{max_mid}} | {item.split('|')[2].strip():<{max_final}} "
         for item in row]
         for row in matrix
     ]
 
-    # Imprimir a matriz formatada
     for row in formatted_rows:
         print('\t'+' '.join(f"[{item}] " for item in row))
 
-# Função para formatar a saída
 def format_dict(data):
-    # Encontrar o comprimento máximo das chaves e valores
     max_key_length = max(len(f"{key}") for key in data)
     max_value_length = max(len(f"{value}") for value in data.values())
 
-    # Formatar cada entrada
     formatted_entries = []
     for key, value in data.items():
         key_str = f"{key}".ljust(max_key_length)
         value_str = f"{value}".ljust(max_value_length)
         formatted_entries.append(f"\t{key_str} | {value_str}")
 
-    # Imprimir as entradas formatadas
     for entry in formatted_entries:
         print(entry)
 @torch.no_grad

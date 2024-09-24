@@ -89,9 +89,9 @@ class UtilConfigs:
     def get_mapping_state_by_model_name(model_name,dfg,cgra,id_node_to_be_mapped,dist_func = None):
         if model_name == EnumModelName.MAPZERO:
             return MappingStateMapZero(dfg,cgra,id_node_to_be_mapped)
-        if model_name == EnumModelName.YOTO_MAPZERO:
+        if model_name == EnumModelName.SMARTMAP:
             return MappingStateYOTO(dfg,cgra,id_node_to_be_mapped)
-        if model_name == EnumModelName.YOTT_MAPZERO:
+        if model_name == EnumModelName.YOTT_SMARTMAP:
             return MappingStateYOTT(dfg,cgra,id_node_to_be_mapped,dist_func)
         raise ValueError(f'MappingState class not implemented for {model_name}')
 

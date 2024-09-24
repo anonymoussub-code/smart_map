@@ -7,4 +7,4 @@ networkx
 torch_geometric
 tensorboard
 pydot
-# sudo apt-get install graphviz graphviz-dev
+graphviz

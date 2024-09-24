@@ -22,8 +22,8 @@ import sys
 from src.utils.util_module import UtilModule
 import time
 from src.entities.training_results import TrainingResults
-from configs.config_yoto_mapzero import ConfigYOTOMapzero
-from configs.config_yott_mapzero import ConfigYOTTMapzero
+from configs.config_smartmap import ConfigSmartMap
+from configs.config_yott_smartmap import ConfigYOTTSmartMap
 import os
 from torch.utils.data import Dataset, DataLoader, random_split
 # @torch.no_grad
@@ -268,8 +268,7 @@ if __name__ == "__main__":
     # config_class = 'test'
     # model_config = ConfigMapzero(EnumInterconnections.OH_TOR_DIAG,(8,8),EnumMode.DATA_GENERATION)
     # model_config = ConfigMapzero(EnumInterconnections.OH_TOR_DIAG,(4,4),EnumMode.TRAIN)
-    # model_config = ConfigYOTTMapzero(EnumInterconnections.ONE_HOP,(4,4),EnumMode.TRAIN)
-    # model_config = ConfigYOTOMapzero(EnumInterconnections.ONE_HOP,(4,4),EnumMode.TRAIN)
+    # model_config = ConfigSmartMap(EnumInterconnections.ONE_HOP,(4,4),EnumMode.TRAIN)
     
     batch_size = 32
     train(model_config,batch_size,eval_model)

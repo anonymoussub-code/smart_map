@@ -1,8 +1,8 @@
 import torch
 
-class PolicyNetV2(torch.nn.Module):
+class GeneralPolicyNet(torch.nn.Module):
     def __init__(self,dim_input_state,dim_input_actions,dim_out_actions,dim_out,slope_leaky_relu,dtype):
-        super(PolicyNetV2,self).__init__()
+        super(GeneralPolicyNet,self).__init__()
         self.mlp = torch.nn.Sequential(torch.nn.Linear(dim_input_state+dim_out_actions,dim_out,dtype=dtype),
                                        torch.nn.Linear(dim_out,dim_out,dtype=dtype))
         self.linear = torch.nn.Linear(dim_input_actions,dim_out_actions)                            

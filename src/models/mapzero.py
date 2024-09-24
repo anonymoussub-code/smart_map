@@ -2,7 +2,7 @@ from torch_geometric.nn import GATConv
 import torch
 from src.rl.states.mapping_state_interface import MappingStateInterface
 from src.models.graph_embedding_generation import GraphEmbeddingGeneration
-from src.models.policy_net import PolicyNet
+from src.models.mapzero_policy_net import MapZeroPolicyNet
 from src.models.value_net import ValueNet
 from src.rl.enviroments.interface_enviroment import InterfaceEnviroment
 from src.rl.enviroments.mapzero_enviroment import MapZeroEnviroment
@@ -16,7 +16,7 @@ class MapZero(AbstractNetwork):
         self.graph_embed_generation = GraphEmbeddingGeneration(dim_feat_dfg,dim_feat_cgra,out_dim,negative_slope,dtype,n_heads)
         self.dtype = dtype
         self.value_net = ValueNet(out_dim,out_dim,negative_slope,dtype)
-        self.policy_net = PolicyNet(out_dim,out_dim,len_action_space,negative_slope,dtype)
+        self.policy_net = MapZeroPolicyNet(out_dim,out_dim,len_action_space,negative_slope,dtype)
         self.enviroment = enviroment
 
     def forward(self,dfg_graph,cgra_graph,vertex_to_be_mapped_feature,mask,dfg_pad_mask,cgra_pad_mask):

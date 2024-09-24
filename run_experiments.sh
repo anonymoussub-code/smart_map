@@ -7,14 +7,12 @@ path_config_modules="configs/"
 
 config_modules=(
     "config_mapzero.py:ConfigMapzero"
-    "config_yoto_mapzero.py:ConfigYOTOMapzero"
-    # "config_yott_mapzero.py:ConfigYOTTMapzero"
+    "config_smartmap.py:ConfigSmartMap"
 )
 
 arch_dims=(
     "4x4"
     "8x8"
-    "16x16"
 )
 
 archs=(
@@ -30,15 +28,13 @@ do
         for module in "${config_modules[@]}"
         do  
             IFS=':' read -r config_file config_class <<< "$module"
-            if [[ ("$config_class" != "ConfigYOTTMapzero") || ("$arch" != "OH_TOR_DIAG") ]]; then
                
-                ./scripts/train.sh $path_config_modules$config_file $config_class $arch $arch_dim
+            ./scripts/train.sh $path_config_modules$config_file $config_class $arch $arch_dim
 
-                ./scripts/map_with_zero_shot.sh $path_config_modules$config_file $config_class $arch $arch_dim
-             
-                ./scripts/map_with_finetune.sh $path_config_modules$config_file $config_class $arch $arch_dim
-               
-            fi
+            ./scripts/map_with_zero_shot.sh $path_config_modules$config_file $config_class $arch $arch_dim
+            
+            ./scripts/map_with_finetune.sh $path_config_modules$config_file $config_class $arch $arch_dim
+            
         done
     done
 done

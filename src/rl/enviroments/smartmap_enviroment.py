@@ -1,16 +1,17 @@
 from copy import deepcopy
 from src.rl.enviroments.interface_enviroment import InterfaceEnviroment
-from src.rl.states.mapping_state_yott import MappingStateYOTT
+from src.rl.states.mapping_state_yoto import MappingStateYOTO
 from src.enums.enum_interconnect_style import EnumInterconnectStyle
 from src.graphs.dfgs.dfg_mapzero import DFGMapZero
 from src.graphs.cgras.cgra_mapzero import CGRAMapzero
 from src.utils.util_calculations import UtilCalculations
 from src.utils.util_routing import UtilRouting
 from src.utils.util_mapping import UtilMapping
-
-class YOTTMapzeroEnviroment(InterfaceEnviroment):
+import numpy as np
+import math
+class SmartMapEnviroment(InterfaceEnviroment):
     @staticmethod
-    def step(state,action,debug=False):
+    def step(state:MappingStateYOTO,action,debug=False):
         bad_reward = state.bad_reward
         if not state.is_end_state:
             id_node_to_be_mapped = state.id_node_to_be_mapped
@@ -46,7 +47,7 @@ class YOTTMapzeroEnviroment(InterfaceEnviroment):
                                 cp_cgra.assign_node_to_pe(-2,route_pe)
                                 used_pes = cp_cgra.get_used_pes()
 
-                        reward -= bad_reward if cost == 0 else len(pes_to_routing[(neigh_pe,pe)]) - 1
+                        reward -= 0 if cost == 0 else (len(pes_to_routing[(neigh_pe,pe)]) - 1)
                 #Reversed routing order
                 for neigh in cp_dfg.out_vertices[id_node_to_be_mapped]:
                     neigh_pe = cp_dfg.get_pe_assigned_to_node(neigh)
@@ -60,14 +61,14 @@ class YOTTMapzeroEnviroment(InterfaceEnviroment):
                                 cp_cgra.assign_node_to_pe(-2,route_pe)
                                 used_pes = cp_cgra.get_used_pes()
 
-                        reward -= bad_reward if cost == 0 else len(pes_to_routing[(pe,neigh_pe)]) - 1
+                        reward -= 0 if cost == 0 else (len(pes_to_routing[(pe,neigh_pe)]) - 1)
                  
                 cp_cgra.update_free_interconnections(free_interconnections)
                 cp_cgra.update_pes_to_routing(pes_to_routing)
                
             else:
                 assert False
-            next_state = MappingStateYOTT(cp_dfg,cp_cgra,cp_dfg.get_next_node_to_be_mapped(id_node_to_be_mapped),state.distance_func)
+            next_state = MappingStateYOTO(cp_dfg,cp_cgra,cp_dfg.get_next_node_to_be_mapped(id_node_to_be_mapped))
             if debug:
                 print("Next state")
                 next_state.print_state()
@@ -79,28 +80,23 @@ class YOTTMapzeroEnviroment(InterfaceEnviroment):
                     next_state.node_to_scheduled_time_slice = node_to_scheduled_time_slice
                 else:
                      mapping_is_valid = False
-                # else:
-                #     for node in next_state.dfg.base_dfg.vertices:
-                #         if next_state.dfg.base_dfg.node_to_pe[node] == next_state.dfg.special_value:
-                #             reward -= bad_reward
-                #     mapping_is_valid = False
                 
                 if not mapping_is_valid:
                     for (u,v) in next_state.dfg.base_dfg.edges:
-                            father_pe = next_state.dfg.base_dfg.node_to_pe[u]
-                            child_pe = next_state.dfg.base_dfg.node_to_pe[v]
-                            if (father_pe,child_pe) not in next_state.cgra.cgra.pes_to_routing:
-                                reward -= bad_reward
+                        father_pe = next_state.dfg.base_dfg.node_to_pe[u]
+                        child_pe = next_state.dfg.base_dfg.node_to_pe[v]
+                        if (father_pe,child_pe) not in next_state.cgra.cgra.pes_to_routing:
+                            reward -= bad_reward
                     reward -= bad_reward
-                    
+
                 next_state.set_mapping_is_valid(mapping_is_valid)
 
             if debug:
                 print("Action",action,"Reward",reward)
                 print()
-            return next_state,reward/100 , next_state.is_end_state
+            return next_state,reward/100, next_state.is_end_state
         else:
             if debug:
-                print("Endddd statee")
+                print("End state")
                 state.print_state()
             return deepcopy(state),0, True

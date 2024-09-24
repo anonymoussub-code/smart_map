@@ -2,21 +2,21 @@ from torch_geometric.nn import GATConv
 import torch
 from src.rl.states.mapping_state_interface import MappingStateInterface
 from src.models.graph_embedding_generation import GraphEmbeddingGeneration
-from src.models.policy_net_v2 import PolicyNetV2
+from src.models.general_policy_net import GeneralPolicyNet
 from src.models.value_net import ValueNet
 from src.rl.enviroments.interface_enviroment import InterfaceEnviroment
-from src.rl.enviroments.mapzero_enviroment import MapZeroEnviroment
 from src.models.abstract_network import AbstractNetwork
 from torch_geometric.data import Data, Batch
 import numpy as np
-class GeneralMapzero(AbstractNetwork):
+
+class SmartMap(AbstractNetwork):
     def __init__(self,dim_dfg_feat,dim_cgra_feat,out_dim,max_actions,dtype,enviroment:InterfaceEnviroment):
         super().__init__()
         negative_slope = 0.02
         self.graph_embed_generation = GraphEmbeddingGeneration(dim_dfg_feat,dim_cgra_feat,out_dim,negative_slope,dtype,4)
         self.dtype = dtype
         self.value_net = ValueNet(out_dim,out_dim,negative_slope,dtype)
-        self.policy_net = PolicyNetV2(out_dim,dim_cgra_feat,out_dim,out_dim,negative_slope,dtype)
+        self.policy_net = GeneralPolicyNet(out_dim,dim_cgra_feat,out_dim,out_dim,negative_slope,dtype)
         self.enviroment = enviroment
         self.dim_features = dim_cgra_feat
         self.max_actions = max_actions

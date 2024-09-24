@@ -1,6 +1,6 @@
 from enum import Enum
 
 class EnumModelName(Enum):
-    YOTO_MAPZERO = 'yoto_mapzero'
-    YOTT_MAPZERO = 'yott_mapzero'
+    SMARTMAP = 'smartmap'
+    YOTT_SMARTMAP = 'yott_smartmap'
     MAPZERO = 'mapzero'
