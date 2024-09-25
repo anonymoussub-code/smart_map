@@ -136,8 +136,14 @@ tensorboard --logdir results/
 For mappings, information such as whether the mapping is valid, routing penalty (sum of all rewards of the mapping), test mode (zero-shot or finetune), reason for unsuccessful mapping (if applicable), and mapping time are stored in `mapping_results.csv`, while interpretable mappings are provided in `results/mappings/`. Note that MCTS metrics are also saved and will be used for further analysis.
 
 #### Example of an Interpretable Mapping
-Timing can be understood as scheduling.
+This section presents the result of mapping onto a 4x4 mesh-like CGRA for DFG V_8_E_9.
 
+**DFG V_8_E_9**
+
+![alt text](/benchmarks/changed_MCTS_benchmark/V_8_E_9.png)
+
+**Mapping**
+Timing can be understood as scheduling. 
 ```
 -------------------------------------------------- Mapping V_8_E_9.dot --------------------------------------------------
 
