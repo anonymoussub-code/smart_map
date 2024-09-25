@@ -143,6 +143,7 @@ This section presents the result of mapping onto a 4x4 mesh-like CGRA for DFG V_
 ![alt text](/benchmarks/changed_MCTS_benchmark/V_8_E_9.png)
 
 **Mapping**
+
 Timing can be understood as scheduling. 
 ```
 -------------------------------------------------- Mapping V_8_E_9.dot --------------------------------------------------
